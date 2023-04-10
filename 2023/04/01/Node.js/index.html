@@ -16,16 +16,16 @@
   <meta name="author" content="Airfe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.简介官网：https:&#x2F;&#x2F;nodejs.org&#x2F;zh-cn&#x2F; 理解node是一个运行环境：  浏览器是 JavaScript 的前端运行环境 Node.js 是 JavaScript 的后端运行环境 Node.js 中无法调用 DOM 和 BOM 等浏览器内置 API  2.fs文件系统模块 导入fs 1const fs &#x3D; require(&quot;fs&quot;)  方法（必选参数）[">
+    <meta name="description" content="本文将介绍Node.js的基本使用。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node.js">
 <meta property="og:url" content="http://example.com/2023/04/01/Node.js/index.html">
 <meta property="og:site_name" content="Airfe的博客">
-<meta property="og:description" content="1.简介官网：https:&#x2F;&#x2F;nodejs.org&#x2F;zh-cn&#x2F; 理解node是一个运行环境：  浏览器是 JavaScript 的前端运行环境 Node.js 是 JavaScript 的后端运行环境 Node.js 中无法调用 DOM 和 BOM 等浏览器内置 API  2.fs文件系统模块 导入fs 1const fs &#x3D; require(&quot;fs&quot;)  方法（必选参数）[">
+<meta property="og:description" content="本文将介绍Node.js的基本使用。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/nodejs.png">
 <meta property="article:published_time" content="2023-04-01T02:13:37.271Z">
-<meta property="article:modified_time" content="2023-04-01T06:21:34.919Z">
+<meta property="article:modified_time" content="2023-04-10T11:52:31.561Z">
 <meta property="article:author" content="Airfe">
 <meta property="article:tag" content="服务器">
 <meta name="twitter:card" content="summary_large_image">
@@ -877,6 +877,37 @@
             </div>
 
             
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"RW68dMkEpeIOJJiBr1lPkhOS-gzGzoHsz","appKey":"P5fzMTGSJIoTaGvmgzsUHeNZ","path":"window.location.pathname","placeholder":"发表你的看法吧~","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"RW68dMkEpeIOJJiBr1lPkhOS-gzGzoHsz","appkey":"P5fzMTGSJIoTaGvmgzsUHeNZ","server_url":"https://rw68dmke.lc-cn-n1-shared.com"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
           </article>
         </div>
       </div>
@@ -969,7 +1000,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
     </div>
   
   
