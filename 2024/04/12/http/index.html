@@ -1,0 +1,1235 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/images/base.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Airfe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文将主要介绍http协议。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="http">
+<meta property="og:url" content="http://example.com/2024/04/12/http/index.html">
+<meta property="og:site_name" content="Airfe的博客">
+<meta property="og:description" content="本文将主要介绍http协议。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/pageImage/http.png">
+<meta property="article:published_time" content="2024-04-12T03:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-13T03:03:45.804Z">
+<meta property="article:author" content="Airfe">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/pageImage/http.png">
+  
+  
+  
+    <meta name="referrer" content="no-referrer" />
+  
+  <title>http - Airfe的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"699a5d71ac7179b23874a59b0666a6f6","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"RW68dMkEpeIOJJiBr1lPkhOS-gzGzoHsz","app_key":"P5fzMTGSJIoTaGvmgzsUHeNZ","server_url":"https://rw68dmke.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?699a5d71ac7179b23874a59b0666a6f6";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Airfe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/images/bg.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="http"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-12 11:00" pubdate>
+          2024年04月12日
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          76 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">http</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="网络基础"><a href="#网络基础" class="headerlink" title="网络基础"></a>网络基础</h1><h2 id="TCP-x2F-IP概念层模型"><a href="#TCP-x2F-IP概念层模型" class="headerlink" title="TCP&#x2F;IP概念层模型"></a>TCP&#x2F;IP概念层模型</h2><table>
+<thead>
+<tr>
+<th>TCP&#x2F;IP概念层模型</th>
+<th>功能</th>
+<th>TCP&#x2F;IP协议族</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>应用层</td>
+<td>文件传输，电子邮件，文件服务，虚拟终端</td>
+<td>TFTP， <strong>HTTP</strong>，SNMP，FTP，SMTP，<strong>DNS</strong>，Telnet</td>
+</tr>
+<tr>
+<td>传输层</td>
+<td>提供端对端的接口</td>
+<td><strong>TCP</strong>，UDP</td>
+</tr>
+<tr>
+<td>网络层</td>
+<td>为数据包选择路由</td>
+<td>IP，ICMP， RIP，OSPF，BGP，IGMP</td>
+</tr>
+<tr>
+<td>链路层</td>
+<td>传输有地址的帧以及错误检测功能</td>
+<td>SLIP，CSLIP，PPP，ARP，RARP，MTU</td>
+</tr>
+</tbody></table>
+<p>要建立一次完整的TCP连接到关闭连接需要：<strong>①三次挥手</strong> –&gt; <strong>②四次挥手</strong></p>
+<p>首先了解关于 <code>ACK</code>、<code>FIN</code>、<code>SYN</code> 状态码的含义：</p>
+<ol>
+<li><code>ACK</code> 用于确认，表示通知对方，我已经收到你发来的信息了。</li>
+<li><code>FIN</code> 用于结束，表示告知对方，我这边已经结束，数据全部发送完毕，没有后续输出，请求终止连接。</li>
+<li><code>SYN</code> 用于同步和建立连接，表示告知对方，我这边请求同步建立连接。</li>
+</ol>
+<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAC9UExURVlZWdPT07KysmRkZIWFhfT09JmZmWZmZm9vb39/fxkZGUxMTDMzM3p6epCQkKamppubm729venp6cjIyN7e3tbW1s/Pz8LCwnx8fLS0tFZWVoiIiI+Pj6GhoeTk5Glpabu7u93d3evr66CgoJSUlKqqqsnJyeDg4Hd3d8PDw+Xl5bi4uNHR0dvb26Ojo6urq+fn51hYWDg4OCgoKHBwcK2traenp0FBQe7u7vHx8U5OTre3t8zMzHV1df///7GrnpQAAAA/dFJOU///////////////////////////////////////////////////////////////////////////////////AI4mfBcAAAUGSURBVHja7NoJb6M4GMZxY0NCD64kve/pMZ2d3Z297+X7f6zFNmBAMUXa6URl/q9UJSWPUPzrizFWRUlNLgEBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYYIEFAVhggQUWWGBBABZYYIEFFlgQgAUWWGCBBRYEYIEFFlhggQUBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYn6cCIcRXgvX/h9qcIVBqDdbEM8RCxGCB9QqXYRwHYDHBgwXWl8eKZKiESHI3Ba1kWs3fKixcaJUl1YyeBm7Ocq+yLItUiVBGnXxenSHJolIKEcwHq6ikbOX1YGVzQCTN8LPmSLreghUl9sN4Uw7yajMrLC0TZ1ImzqY6FEop0+pIaEN5HaoOxVuwEqFyc4I46uSlzOLqgxlh6UaR9l3VYWl9Fdoxb1Q90KJtu41pwwFW/WHhTtW8i7TafLCqRsk6bsGw63L9qurXRmuIlbT9lDQnlXU+nBFW1Q2qnZbDprWa2tjR90LZFqx1/+Td/HpGWLlrLDvIwTcx6dQ1Vrntbig68cDms3JwbA5Y1azs1ger6sNV/bbIw1jU81MvNAGrl58RVn8ozW+btF08iGFoAlYvP3csfVur1gJBEIA1uBmue5dhZDOyO2epbmgCVi8/I6x0MMHH9pjsTfBhNzQBq5uPZoQlB0uH3DZG4EZqQ26fL3sZq5uf09Ih6qw3i/pm6BZO0qZX7rrUS68Xsbr5ZE4rePMk08pk9aUZugfqppvs6AM1Acvlo/StP+6EbW06z8hJqxbYp2BZPQUnFsLsKuhQdaHqn5ewbF7KXIn0jWO5MqOQ7RaNLPtbNMmmhimj0GUmYLl8Gs0Lq4wyPbTu1l2QKqHSouzs3OlDIslW5SQsnY/NXmFplyNvEuuLV/Tau9BzwiraDUSwXmysztYWWNtL1psXeumgIrDGaqXvBfUuvtqUYI3V2t1wk1e2msFluJJm6zDJXv/fIfjPP7DAAgsssCiwwAILLLDAosACCyywwAKLAgsssMACC6zt9fDz/v75tyOB+98PD2+ORgKffjw4OP1uJPDxl+Xy8v1I4MPF3t7VNyOB4/vF4uzdzrG+39f1kz/w66Guv/yBvw90KX/gZKkr8Qf+2dOV+gNHC12/7RxrabD2/a31bLAO/a11YbAO/K21MFhLf2s9Gqw9f2vdGqzFu11jnVusE2/gxmI9eQOnFuvYG7i0WH7uK4t15w2cWazrXWP9a7H8f/bQYvm/6IPF+sF/pVssf19Ii/WH/0K2WH/uGuvEWC39gSdj9Twy+Rqri5EZx1gt/IE7Y/XoD1wbq9vd3w1PlufnD2OBp+ebm/uxwPHF6emnscDR4vLy41jg7vHq6sNY4Pr27OyYdRaLUrDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssL6u+k+AAQCR9eHtLKvLfwAAAABJRU5ErkJggg==" srcset="/img/loading.gif" lazyload data-original="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/%20markdown/image-20230427221904147.png" alt="image-20230427221904147"></p>
+<p>可以简单理解：</p>
+<blockquote>
+<p>双方都要发送接收的信息：我想建立连接，对方得告诉我可以跟我建立连接</p>
+<p>一共就是四个信息的传递，只不过是中间那次握手可以同时发送两个信息，四个信息加上三次握手，保证了连接的有效性和可靠性</p>
+</blockquote>
+<p>为什么不是两次握手？</p>
+<p>如果采用两次握手建立连接，客户端向服务端发送了一个SYN包，因为一些未知原因没有发送成功而是滞留在网路中。此时客户端会重新</p>
+<p>发送SYN包，服务器接收到后发送SYN+ACK包，建立起连接。在以后未知的某个时刻第一包数据阻塞的网络节点突然恢复，服务器会误以</p>
+<p>为是客户端发送的连接请求，于是接收并回复SYN+ACK包亦建立起连接，最终会导致客户端和服务端的状态不一致。</p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAC9UExURVlZWdPT07KysmRkZIWFhfT09JmZmWZmZm9vb39/fxkZGUxMTDMzM3p6epCQkKamppubm729venp6cjIyN7e3tbW1s/Pz8LCwnx8fLS0tFZWVoiIiI+Pj6GhoeTk5Glpabu7u93d3evr66CgoJSUlKqqqsnJyeDg4Hd3d8PDw+Xl5bi4uNHR0dvb26Ojo6urq+fn51hYWDg4OCgoKHBwcK2traenp0FBQe7u7vHx8U5OTre3t8zMzHV1df///7GrnpQAAAA/dFJOU///////////////////////////////////////////////////////////////////////////////////AI4mfBcAAAUGSURBVHja7NoJb6M4GMZxY0NCD64kve/pMZ2d3Z297+X7f6zFNmBAMUXa6URl/q9UJSWPUPzrizFWRUlNLgEBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYYIEFAVhggQUWWGBBABZYYIEFFlgQgAUWWGCBBRYEYIEFFlhggQUBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYn6cCIcRXgvX/h9qcIVBqDdbEM8RCxGCB9QqXYRwHYDHBgwXWl8eKZKiESHI3Ba1kWs3fKixcaJUl1YyeBm7Ocq+yLItUiVBGnXxenSHJolIKEcwHq6ikbOX1YGVzQCTN8LPmSLreghUl9sN4Uw7yajMrLC0TZ1ImzqY6FEop0+pIaEN5HaoOxVuwEqFyc4I46uSlzOLqgxlh6UaR9l3VYWl9Fdoxb1Q90KJtu41pwwFW/WHhTtW8i7TafLCqRsk6bsGw63L9qurXRmuIlbT9lDQnlXU+nBFW1Q2qnZbDprWa2tjR90LZFqx1/+Td/HpGWLlrLDvIwTcx6dQ1Vrntbig68cDms3JwbA5Y1azs1ger6sNV/bbIw1jU81MvNAGrl58RVn8ozW+btF08iGFoAlYvP3csfVur1gJBEIA1uBmue5dhZDOyO2epbmgCVi8/I6x0MMHH9pjsTfBhNzQBq5uPZoQlB0uH3DZG4EZqQ26fL3sZq5uf09Ih6qw3i/pm6BZO0qZX7rrUS68Xsbr5ZE4rePMk08pk9aUZugfqppvs6AM1Acvlo/StP+6EbW06z8hJqxbYp2BZPQUnFsLsKuhQdaHqn5ewbF7KXIn0jWO5MqOQ7RaNLPtbNMmmhimj0GUmYLl8Gs0Lq4wyPbTu1l2QKqHSouzs3OlDIslW5SQsnY/NXmFplyNvEuuLV/Tau9BzwiraDUSwXmysztYWWNtL1psXeumgIrDGaqXvBfUuvtqUYI3V2t1wk1e2msFluJJm6zDJXv/fIfjPP7DAAgsssCiwwAILLLDAosACCyywwAKLAgsssMACC6zt9fDz/v75tyOB+98PD2+ORgKffjw4OP1uJPDxl+Xy8v1I4MPF3t7VNyOB4/vF4uzdzrG+39f1kz/w66Guv/yBvw90KX/gZKkr8Qf+2dOV+gNHC12/7RxrabD2/a31bLAO/a11YbAO/K21MFhLf2s9Gqw9f2vdGqzFu11jnVusE2/gxmI9eQOnFuvYG7i0WH7uK4t15w2cWazrXWP9a7H8f/bQYvm/6IPF+sF/pVssf19Ii/WH/0K2WH/uGuvEWC39gSdj9Twy+Rqri5EZx1gt/IE7Y/XoD1wbq9vd3w1PlufnD2OBp+ebm/uxwPHF6emnscDR4vLy41jg7vHq6sNY4Pr27OyYdRaLUrDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssL6u+k+AAQCR9eHtLKvLfwAAAABJRU5ErkJggg==" srcset="/img/loading.gif" lazyload data-original="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/%20markdown/image-20230427221928592.png" alt="image-20230427221928592"></p>
+<p>我想关闭连接，对方得考诉我可以关闭连接，对方赶紧把剩下的数据发过来并说他也想关闭连接，我收到数据告诉对方数据已经收到可以关闭连接。</p>
+<p>后续我会继续等待一段时间后再进行关闭连接，因为担心我给对方发送的可以关闭信息没有成功发出，如果对方真没收到就会重新发送数据（重复一下第三次挥手），我还能做响应。</p>
+<p>可以简单理解中间的两次挥手：</p>
+<blockquote>
+<p>FIN和ACK不能合并在一起的原因：（四次挥手）</p>
+<p>发送FIN和ACK的时机不同，发送ACK是内核行为，发送FIN是应用程序行为，在代码中执行到对应的close()方法才会触发FIN。</p>
+<p>但有时也会出现三次挥手。（FIN和ACK可以合并的情况）</p>
+<p>如果程序能够很快地调用close()方法，FIN和ACK相隔时间不长，就会触发TCP的“延迟应答”和“捎带应答”机制。</p>
+</blockquote>
+<h2 id="URL和URI"><a href="#URL和URI" class="headerlink" title="URL和URI"></a>URL和URI</h2><h3 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h3><p>URL是对于某种web资源的引用，并且包含了如何获取该资源的方式。 最常见到的场景就是指一个网站的地址，也就是你在浏览器地址栏</p>
+<p>见到的那个东西。</p>
+<p><code>https://www.google.com/search?q=url+vs+uri#showMeTheDifferences</code></p>
+<p>一个URL由如下几个部分构成：</p>
+<ul>
+<li><p><strong>协议</strong>: 通常是<code>https</code>或者<code>http</code>。表示通过何种方式获取该资源。你可能还见过其他协议类型，比如<code>ftp</code>或者<code>file</code></p>
+</li>
+<li><p>协议后面跟着<code>://</code></p>
+</li>
+<li><p><strong>主机名</strong>: 可以是一个已经在DNS服务器注册过的域名 —— 或者是一个IP地址 —— 域名就表示背后的IP地址。一组主要由数字组成的用</p>
+<p>于标识接入网络的设备的字符串。</p>
+</li>
+<li><p>主机名后面可以指定端口，端口是可选的，如果不指定则使用默认端口，端口和主机名之间通过冒号隔开。</p>
+</li>
+<li><p><strong>资源路径</strong>: 用于表示资源在主机上的文件系统路径。</p>
+</li>
+<li><p>可以在这之后通过问号连接可选的查询参数，如果有多个查询参数，通过&amp;符连接，一般用于 <code>GET</code> 查询。</p>
+</li>
+<li><p>最后一项，如果需要的话可以添加#作为需要跳转的页面上的矛点名称。</p>
+</li>
+</ul>
+<h3 id="URI"><a href="#URI" class="headerlink" title="URI"></a>URI</h3><p>与<code>URL</code>相似的部分是，URI同样定义了资源的标识。但不同点在于URI通常不会包含获取资源的方式。</p>
+<p>比如<code>ISBN</code>作为书目的资源定义就是一种<code>URI</code>，但不是<code>URL</code>。它清楚地为每一种出版的书目定义了唯一的数字编号，但没有包含任何如何</p>
+<p>获取这种资源的方法。</p>
+<p>总结：URI是URL的超集，URL是URI的子集。每一个URL都必定也是一个URI。</p>
+<blockquote>
+<p>The term “Uniform Resource Locator” (URL) refers to the subset of URIs that, in addition to identifying a resource, provide a means of locating the resource by describing its primary access mechanism.</p>
+</blockquote>
+<h2 id="各种协议与HTTP协议的关系"><a href="#各种协议与HTTP协议的关系" class="headerlink" title="各种协议与HTTP协议的关系"></a>各种协议与HTTP协议的关系</h2><p>当想要访问一个网址时：</p>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAC9UExURVlZWdPT07KysmRkZIWFhfT09JmZmWZmZm9vb39/fxkZGUxMTDMzM3p6epCQkKamppubm729venp6cjIyN7e3tbW1s/Pz8LCwnx8fLS0tFZWVoiIiI+Pj6GhoeTk5Glpabu7u93d3evr66CgoJSUlKqqqsnJyeDg4Hd3d8PDw+Xl5bi4uNHR0dvb26Ojo6urq+fn51hYWDg4OCgoKHBwcK2traenp0FBQe7u7vHx8U5OTre3t8zMzHV1df///7GrnpQAAAA/dFJOU///////////////////////////////////////////////////////////////////////////////////AI4mfBcAAAUGSURBVHja7NoJb6M4GMZxY0NCD64kve/pMZ2d3Z297+X7f6zFNmBAMUXa6URl/q9UJSWPUPzrizFWRUlNLgEBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYYIEFAVhggQUWWGBBABZYYIEFFlgQgAUWWGCBBRYEYIEFFlhggQUBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYn6cCIcRXgvX/h9qcIVBqDdbEM8RCxGCB9QqXYRwHYDHBgwXWl8eKZKiESHI3Ba1kWs3fKixcaJUl1YyeBm7Ocq+yLItUiVBGnXxenSHJolIKEcwHq6ikbOX1YGVzQCTN8LPmSLreghUl9sN4Uw7yajMrLC0TZ1ImzqY6FEop0+pIaEN5HaoOxVuwEqFyc4I46uSlzOLqgxlh6UaR9l3VYWl9Fdoxb1Q90KJtu41pwwFW/WHhTtW8i7TafLCqRsk6bsGw63L9qurXRmuIlbT9lDQnlXU+nBFW1Q2qnZbDprWa2tjR90LZFqx1/+Td/HpGWLlrLDvIwTcx6dQ1Vrntbig68cDms3JwbA5Y1azs1ger6sNV/bbIw1jU81MvNAGrl58RVn8ozW+btF08iGFoAlYvP3csfVur1gJBEIA1uBmue5dhZDOyO2epbmgCVi8/I6x0MMHH9pjsTfBhNzQBq5uPZoQlB0uH3DZG4EZqQ26fL3sZq5uf09Ih6qw3i/pm6BZO0qZX7rrUS68Xsbr5ZE4rePMk08pk9aUZugfqppvs6AM1Acvlo/StP+6EbW06z8hJqxbYp2BZPQUnFsLsKuhQdaHqn5ewbF7KXIn0jWO5MqOQ7RaNLPtbNMmmhimj0GUmYLl8Gs0Lq4wyPbTu1l2QKqHSouzs3OlDIslW5SQsnY/NXmFplyNvEuuLV/Tau9BzwiraDUSwXmysztYWWNtL1psXeumgIrDGaqXvBfUuvtqUYI3V2t1wk1e2msFluJJm6zDJXv/fIfjPP7DAAgsssCiwwAILLLDAosACCyywwAKLAgsssMACC6zt9fDz/v75tyOB+98PD2+ORgKffjw4OP1uJPDxl+Xy8v1I4MPF3t7VNyOB4/vF4uzdzrG+39f1kz/w66Guv/yBvw90KX/gZKkr8Qf+2dOV+gNHC12/7RxrabD2/a31bLAO/a11YbAO/K21MFhLf2s9Gqw9f2vdGqzFu11jnVusE2/gxmI9eQOnFuvYG7i0WH7uK4t15w2cWazrXWP9a7H8f/bQYvm/6IPF+sF/pVssf19Ii/WH/0K2WH/uGuvEWC39gSdj9Twy+Rqri5EZx1gt/IE7Y/XoD1wbq9vd3w1PlufnD2OBp+ebm/uxwPHF6emnscDR4vLy41jg7vHq6sNY4Pr27OyYdRaLUrDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssL6u+k+AAQCR9eHtLKvLfwAAAABJRU5ErkJggg==" srcset="/img/loading.gif" lazyload data-original="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/%20markdown/image-20230427222011536.png" alt="image-20230427222011536"></p>
+<ol>
+<li><p>先用DNS解析成IP地址</p>
+</li>
+<li><p>HTTP生成HTTP请求报文</p>
+</li>
+<li><p>TCP将报文切割成一份一份报文段，方便传输</p>
+</li>
+<li><p>IP协议一边搜索一边中转</p>
+</li>
+<li><p>到达目标服务器后，TCP再将报文段按序号合并成报文</p>
+</li>
+<li><p>应用层的HTTP再对请求报文的内容进行处理。</p>
+</li>
+</ol>
+<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>HTTP</strong> —— HyperText Transfer Protocol，超文本传输协议。是当今互联网上应用最为广泛的一种网络协议，所有的 WWW（万维网） 文件都必须遵守这个标</p>
+<p>准。包括三个部分：超文本、传输、协议。</p>
+<ul>
+<li><p><strong>超文本</strong>：HTTP 传输的内容是「超文本」，字面意思就是超越了基本文字内容各种互联网内容，包括图片、音频、视频、压缩包、文件等，都是HTTP的「超文</p>
+<p>本」，这些内容通过浏览器渲染展现出来，创造了丰富多彩的网络生活。</p>
+</li>
+<li><p><strong>传输</strong>：从一端（A）传输内容导另一端（B）的过程，就是传输，传输过程A、B是双向的。客户端（浏览器）向服务端请求网页数据，服务端收到请求后返回</p>
+<p>对应的数据，客户端（浏览器）收到数据后渲染出网页展示给用户。</p>
+</li>
+<li><p><strong>协议</strong>：协议就是一种事先的约定规范，HTTP协议是面向计算机，用于计算机之间通信的规范，规范了内容的结构、行为、错误处理机制等。就像我们以前用</p>
+<p>的“邮编+地址”也是一种通信协议。</p>
+</li>
+</ul>
+<h2 id="协议结构"><a href="#协议结构" class="headerlink" title="协议结构"></a>协议结构</h2><ul>
+<li><p><strong>HTTP的请求协议包括：4部分</strong>。请求行、请求头、空白行、请求体。</p>
+<p>HTTP请求协议的具体报文：<strong>GET请求</strong></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs http">GET /servlet05/getServlet?username=lucy&amp;userpwd=1111 HTTP/1.1 请求行<br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>localhost:8080 请求头开始<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">sec-ch-ua</span><span class="hljs-punctuation">: </span>“Google Chrome”;v=“95”, “Chromium”;v=“95”, “;Not A Brand”;v=“99”<br><span class="hljs-attribute">sec-ch-ua-mobile</span><span class="hljs-punctuation">: </span>?0<br><span class="hljs-attribute">sec-ch-ua-platform</span><span class="hljs-punctuation">: </span>“Windows”<br><span class="hljs-attribute">Upgrade-Insecure-Requests</span><span class="hljs-punctuation">: </span>1<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) <br>Chrome/95.0.4638.54<br>Safari/537.36<br><span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,/;q=0.8,<br>application/signed-exchange;v=b3;q=0.9<br><span class="hljs-attribute">Sec-Fetch-Site</span><span class="hljs-punctuation">: </span>same-origin<br><span class="hljs-attribute">Sec-Fetch-Mode</span><span class="hljs-punctuation">: </span>navigate<br><span class="hljs-attribute">Sec-Fetch-User</span><span class="hljs-punctuation">: </span>?1<br><span class="hljs-attribute">Sec-Fetch-Dest</span><span class="hljs-punctuation">: </span>document<br><span class="hljs-attribute">Referer</span><span class="hljs-punctuation">: </span>http://localhost:8080/servlet05/index.html<br><span class="hljs-attribute">Accept-Encoding</span><span class="hljs-punctuation">: </span>gzip, deflate, br<br><span class="hljs-attribute">Accept-Language</span><span class="hljs-punctuation">: </span>zh-CN,zh;q=0.9  请求头结束<br>空白行<br>请求体<br></code></pre></td></tr></table></figure>
+
+<p>HTTP请求协议的具体报文：<strong>POST请求</strong></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs http">POST /servlet05/postServlet HTTP/1.1 请求行<br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>localhost:8080 请求头开始<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>25<br><span class="hljs-attribute">Cache-Control</span><span class="hljs-punctuation">: </span>max-age=0<br><span class="hljs-attribute">sec-ch-ua</span><span class="hljs-punctuation">: </span>“Google Chrome”;v=“95”, “Chromium”;v=“95”, “;Not A Brand”;v=“99”<br><span class="hljs-attribute">sec-ch-ua-mobile</span><span class="hljs-punctuation">: </span>?0<br><span class="hljs-attribute">sec-ch-ua-platform</span><span class="hljs-punctuation">: </span>“Windows”<br><span class="hljs-attribute">Upgrade-Insecure-Requests</span><span class="hljs-punctuation">: </span>1<br><span class="hljs-attribute">Origin</span><span class="hljs-punctuation">: </span>http://localhost:8080<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/x-www-form-urlencoded<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36<br><span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span><br>text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,/;q=0.8,application/signed-exchange;v=b3;q=0.9<br><span class="hljs-attribute">Sec-Fetch-Site</span><span class="hljs-punctuation">: </span>same-origin<br><span class="hljs-attribute">Sec-Fetch-Mode</span><span class="hljs-punctuation">: </span>navigate<br><span class="hljs-attribute">Sec-Fetch-User</span><span class="hljs-punctuation">: </span>?1<br><span class="hljs-attribute">Sec-Fetch-Dest</span><span class="hljs-punctuation">: </span>document<br><span class="hljs-attribute">Referer</span><span class="hljs-punctuation">: </span>http://localhost:8080/servlet05/index.html<br><span class="hljs-attribute">Accept-Encoding</span><span class="hljs-punctuation">: </span>gzip, deflate, br<br><span class="hljs-attribute">Accept-Language</span><span class="hljs-punctuation">: </span>zh-CN,zh;q=0.9   请求头结束<br>空白行<br>username=lisi&amp;userpwd=123 请求体<br></code></pre></td></tr></table></figure>
+
+<p><strong>请求行</strong>包括三部分：请求方式（GET、POST等7种） URL  HTTP协议版本</p>
+<blockquote>
+<p>请求方式、 HTTP协议版本发展历史后面会详细介绍</p>
+</blockquote>
+<p><strong>请求头</strong>中的字段为 <code>key: value</code>结构，按行分割。</p>
+<table>
+<thead>
+<tr>
+<th>常用请求头字段</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Host</td>
+<td>发送的目标，服务器的域名、端口号</td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>网络连接方式，默认值<code>keep-alive</code>表示使用 TCP 持久连接，以便其他请求复用</td>
+</tr>
+<tr>
+<td>Accept</td>
+<td>告诉服务端可以接受的资源的（MME）类型</td>
+</tr>
+<tr>
+<td>Accept-Encoding</td>
+<td>告诉服务端可以支持哪些压缩方式，常用压缩方式：<code>gzip</code>主流、<code>deflate</code>、<code>br</code>HTTP专用压缩算法</td>
+</tr>
+<tr>
+<td>Cookie</td>
+<td>Cookie数据</td>
+</tr>
+<tr>
+<td>User-Agent</td>
+<td>浏览器表明自己的身份</td>
+</tr>
+<tr>
+<td>Referer</td>
+<td>表示请求引用自哪个地址</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>注意到get请求在“请求行”上发送数据，post请求将参数放在请求体中</p>
+</blockquote>
+</li>
+<li><p><strong>HTTP的响应协议包括：4部分</strong>。状态行、响应头、空白行、响应体。</p>
+<p>HTTP响应协议的具体报文：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">200</span> ok                                     状态行<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>text/html;charset=UTF-8               响应头开始<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>160<br><span class="hljs-attribute">Date</span><span class="hljs-punctuation">: </span>Mon, 08 Nov 2021 13:19:32 GMT<br><span class="hljs-attribute">Keep-Alive</span><span class="hljs-punctuation">: </span>timeout=20<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive                              响应头结束<br>                                                    空白行<br>&lt;!doctype html&gt;                                     响应体<br>&lt;html&gt;<br>    &lt;head&gt;<br>        &lt;title&gt;from get servlet&lt;/title&gt;<br>    &lt;/head&gt;<br>    &lt;body&gt;<br>        &lt;h1&gt;from get servlet&lt;/h1&gt;<br>    &lt;/body&gt;<br>&lt;/html&gt;<br></code></pre></td></tr></table></figure>
+
+<p><strong>状态行</strong>包括三部分：HTTP协议版本号（HTTP&#x2F;1.1） 状态码  状态的描述信息</p>
+<blockquote>
+<p>常见的状态码和其含义后面会详细介绍</p>
+</blockquote>
+<p><strong>响应头</strong>中的字段为 <code>key: value</code>结构，按行分割。</p>
+<table>
+<thead>
+<tr>
+<th>常用响应头字段</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Content-Type</td>
+<td>响应的资源类型</td>
+</tr>
+<tr>
+<td>Content-Length</td>
+<td>返回数据的长度</td>
+</tr>
+<tr>
+<td>Content-Encoding</td>
+<td>发送的实体数据采用的编码类型(压缩方式)，和Accept-Encoding对应</td>
+</tr>
+<tr>
+<td>Server</td>
+<td>表示服务器名称</td>
+</tr>
+<tr>
+<td>Set-Cookie</td>
+<td>后端设置的 Cookie 信息</td>
+</tr>
+<tr>
+<td>Expires</td>
+<td>缓存过期时长</td>
+</tr>
+</tbody></table>
+<p><a href="https://link.juejin.cn/?target=https://tsejx.github.io/javascript-guidebook/computer-networks/http/http-headers">更多HTTP 首部字段</a></p>
+<p><strong>响应体</strong>就是响应的正文，这些内容是一个长的字符串，这个字符串被浏览器渲染，解释并执行，最终展示出效果。</p>
+</li>
+</ul>
+<h2 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h2><table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>描述</th>
+<th>常用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>1xx</strong></td>
+<td>提示信息，处理的中间状态，很少用</td>
+<td>无</td>
+</tr>
+<tr>
+<td><strong>2xx</strong></td>
+<td>处理成功的状态</td>
+<td>- <code>200: OK</code> 成功，一切正常，最常用。<br>- <code>204: No Content</code> 成功但没有<code>body</code>数据<br>- <code>206: Partial Content</code> 成功但仍需继续，常用于分块下载、断点续传</td>
+</tr>
+<tr>
+<td><strong>3xx</strong></td>
+<td>重定向，客户端请求的资源发送了变动，需要重新发起请求继续处理</td>
+<td>- <code>301: Moved Permanently</code> 永久重定向，请求的资源转移到了新URL<br>- <code>302: Found</code> 请求的页面临时移动到新URL，后续请求继续用原URL<br>- <code>304: Not Modified</code> 资源未修改，客户端缓存了资源，重定向到本地</td>
+</tr>
+<tr>
+<td><strong>4xx</strong></td>
+<td>客户端发生错误：语法、请求错误等，服务端无法处理</td>
+<td>- <code>400: Bad Request</code> 请求的报文有错误，具体不明<br>- <code>403: Forbidden</code> 请求了服务端禁止访问的资源<br>- <code>404: Not Found</code> 请求的资源不存在、未找到</td>
+</tr>
+<tr>
+<td><strong>5xx</strong></td>
+<td>服务端发生错误：不能满足客户端请求</td>
+<td>- <code>500: Internal Server Error</code>  服务端错误，具体不明 <br>- <code>501: Not Implemented</code>  还没实现，暂不支持<br>- <code>502: Bad Gateway</code>  网关、代理错误<br>- <code>503: Service Unavailable</code>  服务端很忙，请稍后再试</td>
+</tr>
+</tbody></table>
+<ul>
+<li><a href="https://link.juejin.cn/?target=http://quickref.mofe.io/docs/http-status-code.html">HTTP 状态码备忘清单</a></li>
+</ul>
+<h2 id="请求方式"><a href="#请求方式" class="headerlink" title="请求方式"></a>请求方式</h2><table>
+<thead>
+<tr>
+<th>请求方式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>GET</strong></td>
+<td>请求指定的页面数据，请求的参数放在URL地址中</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td>向指定资源提交数据，请求服务器处理，数据在请求体<code>body</code>中。数据可以是ASCII字符也可以是字节型数据</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td>类似GET请求，用于获取响应的头部信息，不返回内容。</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>即向指定资源位置上传其最新内容，可用于上传、更新资源。</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>请求服务器删除所标识的资源</td>
+</tr>
+<tr>
+<td>TRACE</td>
+<td>回显服务器收到的请求，主要用于测试或诊断。</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>允许客户端访问服务器的性能</td>
+</tr>
+<tr>
+<td>CONNECT</td>
+<td>HTTP&#x2F;1.1协议中预留给能够将连接改为管道方式的代理服务器。通常用于SSL加密服务器的链接（经由非加密的HTTP代理服务器）。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>最常用的是GET、POST两种方式。RESful API 接口规范的一般会用到 <code>POST</code>、<code>DELETE</code>、<code>GET</code>、<code>PUT</code>（分别对应增删查改）。</p>
+</blockquote>
+<h3 id="GET、POST区别"><a href="#GET、POST区别" class="headerlink" title="GET、POST区别"></a>GET、POST区别</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>GET</th>
+<th>POST</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>提交方式</strong></td>
+<td>数据在url的问号<code>?</code>后：<code>url?key=value&amp;key=...</code></td>
+<td>数据在请求体body中</td>
+</tr>
+<tr>
+<td><strong>编码</strong>enctype</td>
+<td>只有appliacation-x-www-form-urlencoded</td>
+<td>支持多种</td>
+</tr>
+<tr>
+<td><strong>书签&#x2F;历史</strong></td>
+<td>可以加入收藏，历史记录、日志会保留数据</td>
+<td>不可收藏、不会保留数据</td>
+</tr>
+<tr>
+<td><strong>缓存&#x2F;效率</strong></td>
+<td>可以被浏览器缓存，效率（速度）更高</td>
+<td>不可缓存</td>
+</tr>
+<tr>
+<td><strong>数据类型&#x2F;长度</strong></td>
+<td>只允许 ASCII 字符，URL长度有限制（2048），不同浏览器不同</td>
+<td>类型没有限制，支持二进制数据。长度（几乎）无限制</td>
+</tr>
+<tr>
+<td><strong>安全性</strong></td>
+<td>安全性更低，数据在URL中容易暴露</td>
+<td>安全性稍高，不过传输过程也是明文的，不会在浏览记录、日志中存储</td>
+</tr>
+<tr>
+<td><strong>回退&#x2F;刷新？</strong></td>
+<td>无副作用（幂等），可重复访问，因为只是<strong>读取</strong>信息</td>
+<td>有副作用，数据会被重新提交（不幂等）<br>浏览器一般会提示用户数据会被重新提交</td>
+</tr>
+<tr>
+<td><strong>使用场景</strong></td>
+<td>获取数据</td>
+<td>提交数据：添加、修改、删除</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>「<strong>幂等</strong>」，意思是多次执行相同的操作，结果都是「相同」。</p>
+<p>在 HTTP 协议里，所谓的「安全」是指请求方法不会「破坏」服务器上的资源。</p>
+</blockquote>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li><p><strong>无状态</strong>。这意味着客户端和服务端之间无法知晓当前对方的状态信息，<code>HTTP</code> 请求本身是不带有任何状态存储的。但实际情况下，客户端和服务端必然需要状</p>
+<p>态的认证和交互，所以就引入了 <code>Cookie</code>， 用于存储当前浏览器的一些状态信息，每次通过独立的 <code>HTTP</code> 请求进行收发，从而解决这个问题。</p>
+</li>
+<li><p><strong>请求互相独立</strong>。<code>HTTP</code> 互相之间都是一个独立的个体请求，在客户端请求网页时多数情况下并不是一次请求就能成功的，服务端首先是响应 <code>HTML</code> 页面，然后</p>
+<p>浏览器收到响应之后发现页面还引用了其他的资源，例如，CSS，JS文件，图片等等，还会自动发送 <code>HTTP</code> 请求获取这些需要的资源。</p>
+</li>
+<li><p><strong>简单快速</strong>：客户向服务器请求服务的时候，只需要传送请求方法和路径，请求方法一般是get和post，因为HTTP协议简单，所以HTTP服务器的程序规模小，</p>
+<p>通信速度快。</p>
+</li>
+<li><p><strong>灵活</strong>：HTTP协议运行传输任意类型的数据对象，传输的类型由Content-Type标记。</p>
+</li>
+</ul>
+<h2 id="HTTP版本"><a href="#HTTP版本" class="headerlink" title="HTTP版本"></a>HTTP版本</h2><p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAC9UExURVlZWdPT07KysmRkZIWFhfT09JmZmWZmZm9vb39/fxkZGUxMTDMzM3p6epCQkKamppubm729venp6cjIyN7e3tbW1s/Pz8LCwnx8fLS0tFZWVoiIiI+Pj6GhoeTk5Glpabu7u93d3evr66CgoJSUlKqqqsnJyeDg4Hd3d8PDw+Xl5bi4uNHR0dvb26Ojo6urq+fn51hYWDg4OCgoKHBwcK2traenp0FBQe7u7vHx8U5OTre3t8zMzHV1df///7GrnpQAAAA/dFJOU///////////////////////////////////////////////////////////////////////////////////AI4mfBcAAAUGSURBVHja7NoJb6M4GMZxY0NCD64kve/pMZ2d3Z297+X7f6zFNmBAMUXa6URl/q9UJSWPUPzrizFWRUlNLgEBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYYIEFAVhggQUWWGBBABZYYIEFFlgQgAUWWGCBBRYEYIEFFlhggQUBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYn6cCIcRXgvX/h9qcIVBqDdbEM8RCxGCB9QqXYRwHYDHBgwXWl8eKZKiESHI3Ba1kWs3fKixcaJUl1YyeBm7Ocq+yLItUiVBGnXxenSHJolIKEcwHq6ikbOX1YGVzQCTN8LPmSLreghUl9sN4Uw7yajMrLC0TZ1ImzqY6FEop0+pIaEN5HaoOxVuwEqFyc4I46uSlzOLqgxlh6UaR9l3VYWl9Fdoxb1Q90KJtu41pwwFW/WHhTtW8i7TafLCqRsk6bsGw63L9qurXRmuIlbT9lDQnlXU+nBFW1Q2qnZbDprWa2tjR90LZFqx1/+Td/HpGWLlrLDvIwTcx6dQ1Vrntbig68cDms3JwbA5Y1azs1ger6sNV/bbIw1jU81MvNAGrl58RVn8ozW+btF08iGFoAlYvP3csfVur1gJBEIA1uBmue5dhZDOyO2epbmgCVi8/I6x0MMHH9pjsTfBhNzQBq5uPZoQlB0uH3DZG4EZqQ26fL3sZq5uf09Ih6qw3i/pm6BZO0qZX7rrUS68Xsbr5ZE4rePMk08pk9aUZugfqppvs6AM1Acvlo/StP+6EbW06z8hJqxbYp2BZPQUnFsLsKuhQdaHqn5ewbF7KXIn0jWO5MqOQ7RaNLPtbNMmmhimj0GUmYLl8Gs0Lq4wyPbTu1l2QKqHSouzs3OlDIslW5SQsnY/NXmFplyNvEuuLV/Tau9BzwiraDUSwXmysztYWWNtL1psXeumgIrDGaqXvBfUuvtqUYI3V2t1wk1e2msFluJJm6zDJXv/fIfjPP7DAAgsssCiwwAILLLDAosACCyywwAKLAgsssMACC6zt9fDz/v75tyOB+98PD2+ORgKffjw4OP1uJPDxl+Xy8v1I4MPF3t7VNyOB4/vF4uzdzrG+39f1kz/w66Guv/yBvw90KX/gZKkr8Qf+2dOV+gNHC12/7RxrabD2/a31bLAO/a11YbAO/K21MFhLf2s9Gqw9f2vdGqzFu11jnVusE2/gxmI9eQOnFuvYG7i0WH7uK4t15w2cWazrXWP9a7H8f/bQYvm/6IPF+sF/pVssf19Ii/WH/0K2WH/uGuvEWC39gSdj9Twy+Rqri5EZx1gt/IE7Y/XoD1wbq9vd3w1PlufnD2OBp+ebm/uxwPHF6emnscDR4vLy41jg7vHq6sNY4Pr27OyYdRaLUrDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssL6u+k+AAQCR9eHtLKvLfwAAAABJRU5ErkJggg==" srcset="/img/loading.gif" lazyload data-original="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/%20markdown/image-20230427222046465.png" alt="image-20230427222046465"></p>
+<h3 id="HTTP-1-0"><a href="#HTTP-1-0" class="headerlink" title="HTTP 1.0"></a>HTTP 1.0</h3><p>HTTP 1.0 是在 1996 年引入的，从那时开始，它的普及率就达到了惊人的效果。</p>
+<ul>
+<li>HTTP 1.0 仅仅提供了最基本的认证，这时候用户名和密码还未经加密，因此很容易收到窥探。</li>
+<li>HTTP 1.0 被设计用来使用短链接，即每次发送数据都会经过 TCP 的三次握手和四次挥手，效率比较低。</li>
+<li>HTTP 1.0 只使用 header 中的 If-Modified-Since 和 Expires 作为缓存失效的标准。</li>
+<li>HTTP 1.0 不支持断点续传，也就是说，每次都会传送全部的页面和数据。</li>
+<li>HTTP 1.0 认为每台计算机只能绑定一个 IP，所以请求消息中的 URL 并没有传递主机名（hostname）。</li>
+</ul>
+<h3 id="HTTP-1-1"><a href="#HTTP-1-1" class="headerlink" title="HTTP 1.1"></a>HTTP 1.1</h3><p>HTTP 1.1 是 HTTP 1.0 开发三年后出现的，也就是 1999 年，它做出了以下方面的变化</p>
+<ul>
+<li><p>默认使用<strong>长连接</strong>，也叫持久连接，建立一次TCP连接后可重复使用，一直保持TCP连接，任意一方主动断开才会结束连接。</p>
+<ul>
+<li>长连接的连接时长可以通过请求头中的 <code>keep-alive</code> 来设置</li>
+</ul>
+</li>
+<li><p><strong>管道传输</strong>：不必串行排队等候了，可以并行连续发送多次请求，但<strong>服务端会顺序处理，顺序返回</strong>。</p>
+</li>
+<li><p><strong>增加Host请求头字段</strong>：WEB浏览器可以使用主机头名来明确表示要访问服务器上的哪个WEB站点，这才实现了在一台WEB服务器上可以在同一个IP地址和端</p>
+<p>口号上使用不同的主机名来创建多个虚拟WEB站点。</p>
+</li>
+<li><p><strong>节约带宽</strong>：HTTP1.1支持只发送header信息（不带任何body信息），如果服务器认为客户端有权限请求服务器，则返回100，客户端接收到100才开始把请求</p>
+<p>body发送到服务器；如果返回401，客户端就可以不用发送请求body了节约了带宽。</p>
+</li>
+<li><p>HTTP 1.1 支持断点续传，通过使用请求头中的 <code>Range</code> 来实现。</p>
+</li>
+<li><p>HTTP 1.1 使用了摘要算法来进行身份验证</p>
+</li>
+<li><p>HTTP 1.1 中新增加了 E-tag，If-Unmodified-Since, If-Match, If-None-Match 等缓存控制标头来控制缓存失效。</p>
+</li>
+<li><p>HTTP 1.1 使用了虚拟网络，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。</p>
+</li>
+</ul>
+<h3 id="HTTP发展到1-1存在有哪些问题："><a href="#HTTP发展到1-1存在有哪些问题：" class="headerlink" title="HTTP发展到1.1存在有哪些问题："></a>HTTP发展到1.1存在有哪些问题：</h3><ul>
+<li><strong>队头阻塞</strong>：虽然管道传输可以使得并行发送多个请求，但前面的请求未完成前，后续的请求都在排队等待，顺序执行没有优先级控制。</li>
+<li><strong>Header</strong>：不支持压缩（只有Body支持压缩），每次相同的<code>header</code>浪费，特别是<code>Cookie</code>、<code>User Agent</code>等完全相同的首部。</li>
+<li><strong>单向请求</strong>：客户端请求，服务端被动响应，服务端无法主动联系客户端。</li>
+</ul>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAC9UExURVlZWdPT07KysmRkZIWFhfT09JmZmWZmZm9vb39/fxkZGUxMTDMzM3p6epCQkKamppubm729venp6cjIyN7e3tbW1s/Pz8LCwnx8fLS0tFZWVoiIiI+Pj6GhoeTk5Glpabu7u93d3evr66CgoJSUlKqqqsnJyeDg4Hd3d8PDw+Xl5bi4uNHR0dvb26Ojo6urq+fn51hYWDg4OCgoKHBwcK2traenp0FBQe7u7vHx8U5OTre3t8zMzHV1df///7GrnpQAAAA/dFJOU///////////////////////////////////////////////////////////////////////////////////AI4mfBcAAAUGSURBVHja7NoJb6M4GMZxY0NCD64kve/pMZ2d3Z297+X7f6zFNmBAMUXa6URl/q9UJSWPUPzrizFWRUlNLgEBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYYIEFAVhggQUWWGBBABZYYIEFFlgQgAUWWGCBBRYEYIEFFlhggQUBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYn6cCIcRXgvX/h9qcIVBqDdbEM8RCxGCB9QqXYRwHYDHBgwXWl8eKZKiESHI3Ba1kWs3fKixcaJUl1YyeBm7Ocq+yLItUiVBGnXxenSHJolIKEcwHq6ikbOX1YGVzQCTN8LPmSLreghUl9sN4Uw7yajMrLC0TZ1ImzqY6FEop0+pIaEN5HaoOxVuwEqFyc4I46uSlzOLqgxlh6UaR9l3VYWl9Fdoxb1Q90KJtu41pwwFW/WHhTtW8i7TafLCqRsk6bsGw63L9qurXRmuIlbT9lDQnlXU+nBFW1Q2qnZbDprWa2tjR90LZFqx1/+Td/HpGWLlrLDvIwTcx6dQ1Vrntbig68cDms3JwbA5Y1azs1ger6sNV/bbIw1jU81MvNAGrl58RVn8ozW+btF08iGFoAlYvP3csfVur1gJBEIA1uBmue5dhZDOyO2epbmgCVi8/I6x0MMHH9pjsTfBhNzQBq5uPZoQlB0uH3DZG4EZqQ26fL3sZq5uf09Ih6qw3i/pm6BZO0qZX7rrUS68Xsbr5ZE4rePMk08pk9aUZugfqppvs6AM1Acvlo/StP+6EbW06z8hJqxbYp2BZPQUnFsLsKuhQdaHqn5ewbF7KXIn0jWO5MqOQ7RaNLPtbNMmmhimj0GUmYLl8Gs0Lq4wyPbTu1l2QKqHSouzs3OlDIslW5SQsnY/NXmFplyNvEuuLV/Tau9BzwiraDUSwXmysztYWWNtL1psXeumgIrDGaqXvBfUuvtqUYI3V2t1wk1e2msFluJJm6zDJXv/fIfjPP7DAAgsssCiwwAILLLDAosACCyywwAKLAgsssMACC6zt9fDz/v75tyOB+98PD2+ORgKffjw4OP1uJPDxl+Xy8v1I4MPF3t7VNyOB4/vF4uzdzrG+39f1kz/w66Guv/yBvw90KX/gZKkr8Qf+2dOV+gNHC12/7RxrabD2/a31bLAO/a11YbAO/K21MFhLf2s9Gqw9f2vdGqzFu11jnVusE2/gxmI9eQOnFuvYG7i0WH7uK4t15w2cWazrXWP9a7H8f/bQYvm/6IPF+sF/pVssf19Ii/WH/0K2WH/uGuvEWC39gSdj9Twy+Rqri5EZx1gt/IE7Y/XoD1wbq9vd3w1PlufnD2OBp+ebm/uxwPHF6emnscDR4vLy41jg7vHq6sNY4Pr27OyYdRaLUrDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssL6u+k+AAQCR9eHtLKvLfwAAAABJRU5ErkJggg==" srcset="/img/loading.gif" lazyload data-original="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/%20markdown/image-20230427222113280.png" alt="image-20230427222113280"></p>
+<h3 id="HTTP-2-0"><a href="#HTTP-2-0" class="headerlink" title="HTTP 2.0"></a>HTTP 2.0</h3><p>HTTP 2.0 是 2015 年开发出来的标准，它主要做的改变如下</p>
+<ul>
+<li><p><code>头部压缩</code>，由于 HTTP 1.1 经常会出现 <strong>User-Agent、Cookie、Accept、Server、Range</strong> 等字段可能会占用几百甚至几千字节，而 Body 却经常只有几十字</p>
+<p>节，所以导致头部偏重。HTTP 2.0 使用 <code>HPACK</code> 算法进行压缩。</p>
+</li>
+<li><p><code>多路复用</code>，即每一个请求都是是用作连接共享。实现了真正的并行传输，它能够在一个TCP上进行任意数量HTTP请求。做到同一个连接并发处理多个请求，而且并发请求的数量比HTTP1.1大了好几个数量级。</p>
+<ul>
+<li>HTTP2.0里每个数据流都可以设置优先级和依赖，优先级高的数据流会被服务器优先处理和返回给客户端，数据流还可以依赖其他的子数据流。</li>
+</ul>
+</li>
+<li><p><code>二进制格式</code>：HTTP2.0通过在应用层和传输层之间增加一个二进制分帧层（更加靠近 TCP&#x2F;IP 的二进制格式），突破了HTTP1.1的性能限制、改进传输性能。</p>
+</li>
+<li><p><code>服务器推送</code>：为了改善延迟，HTTP2.0引入了<code>server push</code>，它允许服务端推送资源给浏览器，在浏览器明确地请求之前，免得客户端再次创建连接发送请求</p>
+<p>到服务器端获取。这样客户端可以直接从本地加载这些资源，不用再通过网络。</p>
+<blockquote>
+<p>服务端推送是一种在客户端请求之前发送数据的机制。</p>
+<p>网页使用了许多资源：HTML、样式表、脚本、图片等等。在HTTP1.1中这些资源每一个都必须明确地请求。这是一个很慢的过程。浏览器从获取HTML开</p>
+<p>始，然后在它解析和评估页面的时候，增量地获取更多的资源。因为服务器必须等待浏览器做每一个请求，网络经常是空闲的和未充分使用的。</p>
+</blockquote>
+</li>
+<li><p><code>强化安全</code>，由于安全已经成为重中之重，所以 HTTP2.0 一般都跑在 HTTPS 上。</p>
+</li>
+</ul>
+<h1 id="浏览器输入一个URL后发生了什么"><a href="#浏览器输入一个URL后发生了什么" class="headerlink" title="浏览器输入一个URL后发生了什么"></a>浏览器输入一个URL后发生了什么</h1><ol>
+<li><p><strong>分析 url</strong>：判断输入的 url 是否合法，如果不合法浏览器会使用默认的搜索引擎进行搜索。如果输入的是一个域名，默认会加上一个 http 前缀。</p>
+</li>
+<li><p><strong>缓存判断</strong>：浏览器会判断所请求的资源是否在缓存里，如果请求的资源在缓存里并且没有失效，那么就直接使用，否则向服务器发起新的请求。</p>
+</li>
+<li><p><strong>DNS解析</strong>：检查浏览器本地hosts文件的缓存，如果没有会向本地 DNS 服务器发送请求进行递归查询，如果找到则返回，否则会向根 DNS 进行迭代查询。找</p>
+<p>到域名和 ip 的关系后，把结果返回给用户，并把结果保存到缓存中。</p>
+</li>
+<li><p><strong>TCP 建立连接</strong>：拿到 ip 地址后，浏览器以一个随机端口与服务器的80端口建立TCP连接，并发送HTTP请求。</p>
+</li>
+<li><p><strong>处理请求</strong>：服务器收到 HTTP 请求报文后进行响应，返回 HTTP 响应报文。</p>
+</li>
+<li><p><strong>接收响应</strong>：浏览器收到 HTTP 响应报文后进行解析，首先查看响应报文在状态行的状态码，根据不同的状态码做不同的事，将渲染结果返回给用户并进行缓存。</p>
+</li>
+<li><p><strong>TCP 断开连接</strong>：通过 TCP 的四次挥手断开连接。</p>
+</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><p>《图解HTTP》</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7078956663440408612#heading-3">HTTP协议、GET请求和POST请求的区别</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7179037422653538364#heading-7">HTTP协议图文简述–HTTP&#x2F;HTTPS&#x2F;HTTP2</a></p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-chain-item">计算机网络</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">#计算机网络</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>http</div>
+      <div>http://example.com/2024/04/12/http/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Airfe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/04/12/https%E6%9C%BA%E5%88%B6%E5%8E%9F%E7%90%86/" title="https">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">https</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/11/TypeScript(%E4%BA%94)%20%E6%B3%9B%E5%9E%8B/" title="TypeScript(五) 泛型">
+                        <span class="hidden-mobile">TypeScript(五) 泛型</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"RW68dMkEpeIOJJiBr1lPkhOS-gzGzoHsz","appKey":"P5fzMTGSJIoTaGvmgzsUHeNZ","path":"window.location.pathname","placeholder":"发表你的看法吧~","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"RW68dMkEpeIOJJiBr1lPkhOS-gzGzoHsz","appkey":"P5fzMTGSJIoTaGvmgzsUHeNZ","server_url":"https://rw68dmke.lc-cn-n1-shared.com"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+        <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数</span> <span id="times">载入时分秒</span> <script src="js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2023008943号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=https://beian.miit.gov.cn/"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAC9UExURVlZWdPT07KysmRkZIWFhfT09JmZmWZmZm9vb39/fxkZGUxMTDMzM3p6epCQkKamppubm729venp6cjIyN7e3tbW1s/Pz8LCwnx8fLS0tFZWVoiIiI+Pj6GhoeTk5Glpabu7u93d3evr66CgoJSUlKqqqsnJyeDg4Hd3d8PDw+Xl5bi4uNHR0dvb26Ojo6urq+fn51hYWDg4OCgoKHBwcK2traenp0FBQe7u7vHx8U5OTre3t8zMzHV1df///7GrnpQAAAA/dFJOU///////////////////////////////////////////////////////////////////////////////////AI4mfBcAAAUGSURBVHja7NoJb6M4GMZxY0NCD64kve/pMZ2d3Z297+X7f6zFNmBAMUXa6URl/q9UJSWPUPzrizFWRUlNLgEBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYYIEFAVhggQUWWGBBABZYYIEFFlgQgAUWWGCBBRYEYIEFFlhggQUBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYn6cCIcRXgvX/h9qcIVBqDdbEM8RCxGCB9QqXYRwHYDHBgwXWl8eKZKiESHI3Ba1kWs3fKixcaJUl1YyeBm7Ocq+yLItUiVBGnXxenSHJolIKEcwHq6ikbOX1YGVzQCTN8LPmSLreghUl9sN4Uw7yajMrLC0TZ1ImzqY6FEop0+pIaEN5HaoOxVuwEqFyc4I46uSlzOLqgxlh6UaR9l3VYWl9Fdoxb1Q90KJtu41pwwFW/WHhTtW8i7TafLCqRsk6bsGw63L9qurXRmuIlbT9lDQnlXU+nBFW1Q2qnZbDprWa2tjR90LZFqx1/+Td/HpGWLlrLDvIwTcx6dQ1Vrntbig68cDms3JwbA5Y1azs1ger6sNV/bbIw1jU81MvNAGrl58RVn8ozW+btF08iGFoAlYvP3csfVur1gJBEIA1uBmue5dhZDOyO2epbmgCVi8/I6x0MMHH9pjsTfBhNzQBq5uPZoQlB0uH3DZG4EZqQ26fL3sZq5uf09Ih6qw3i/pm6BZO0qZX7rrUS68Xsbr5ZE4rePMk08pk9aUZugfqppvs6AM1Acvlo/StP+6EbW06z8hJqxbYp2BZPQUnFsLsKuhQdaHqn5ewbF7KXIn0jWO5MqOQ7RaNLPtbNMmmhimj0GUmYLl8Gs0Lq4wyPbTu1l2QKqHSouzs3OlDIslW5SQsnY/NXmFplyNvEuuLV/Tau9BzwiraDUSwXmysztYWWNtL1psXeumgIrDGaqXvBfUuvtqUYI3V2t1wk1e2msFluJJm6zDJXv/fIfjPP7DAAgsssCiwwAILLLDAosACCyywwAKLAgsssMACC6zt9fDz/v75tyOB+98PD2+ORgKffjw4OP1uJPDxl+Xy8v1I4MPF3t7VNyOB4/vF4uzdzrG+39f1kz/w66Guv/yBvw90KX/gZKkr8Qf+2dOV+gNHC12/7RxrabD2/a31bLAO/a11YbAO/K21MFhLf2s9Gqw9f2vdGqzFu11jnVusE2/gxmI9eQOnFuvYG7i0WH7uK4t15w2cWazrXWP9a7H8f/bQYvm/6IPF+sF/pVssf19Ii/WH/0K2WH/uGuvEWC39gSdj9Twy+Rqri5EZx1gt/IE7Y/XoD1wbq9vd3w1PlufnD2OBp+ebm/uxwPHF6emnscDR4vLy41jg7vHq6sNY4Pr27OyYdRaLUrDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssL6u+k+AAQCR9eHtLKvLfwAAAABJRU5ErkJggg==" srcset="/img/loading.gif" lazyload data-original="/img/police_beian.png" alt="police-icon"/>
+          
+          <span>京公网安备12345678号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body>
+</html>

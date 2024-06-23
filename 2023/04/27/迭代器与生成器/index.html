@@ -1,0 +1,908 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/images/base.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Airfe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文将介绍js中的迭代器与生成器。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="迭代器与生成器">
+<meta property="og:url" content="http://example.com/2023/04/27/%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/index.html">
+<meta property="og:site_name" content="Airfe的博客">
+<meta property="og:description" content="本文将介绍js中的迭代器与生成器。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/pageImage/JavaScript%E5%87%BD%E6%95%B0.png">
+<meta property="article:published_time" content="2023-04-27T00:00:00.000Z">
+<meta property="article:modified_time" content="2024-02-26T12:23:53.590Z">
+<meta property="article:author" content="Airfe">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/pageImage/JavaScript%E5%87%BD%E6%95%B0.png">
+  
+  
+  
+    <meta name="referrer" content="no-referrer" />
+  
+  <title>迭代器与生成器 - Airfe的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"699a5d71ac7179b23874a59b0666a6f6","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"RW68dMkEpeIOJJiBr1lPkhOS-gzGzoHsz","app_key":"P5fzMTGSJIoTaGvmgzsUHeNZ","server_url":"https://rw68dmke.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?699a5d71ac7179b23874a59b0666a6f6";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Airfe</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/images/bg.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="迭代器与生成器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-27 08:00" pubdate>
+          2023年04月27日
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          36 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">迭代器与生成器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>迭代：对一组固定的数据结构，按照一定顺序，多次执行某段代码块。</p>
+<p>在ES6之前，执行迭代操作需要借助循环或者其他辅助结构才能做到。不同的数据结构执行迭代需要开发者写不同的循环和控制逻辑。</p>
+<blockquote>
+<p>比如对象需要使用Object.keys()然后对key数组进行遍历循环；需要手动控制迭代的结束（数组通过的.length长度进行控制什么时候结束）。</p>
+</blockquote>
+<p>不同的数据结构的迭代是该数据结构的固有逻辑，这类特定的数据结构（实现了可迭代协议的数据结构）都统一实现了一套逻辑或规范。</p>
+<p>这套规范可以让开发者只关心迭代逻辑，不需要去控制循环和结束。迭代器调用*.next()*时需要帮我们做的事情有循环逻辑、终止逻辑、固有属性。</p>
+<p><strong>由于可能存在一个变量，执行多次迭代逻辑，并且每次迭代互不影响</strong>。所以每个支持可迭代协议的数据类型都保存了一个迭代器构造函数数，每次执行迭代时生成</p>
+<p>一个新的迭代器。每个可迭代数据类型都有一个<code>[Symbol.iterator]</code>属性，通过调用属性引用的迭代器构造函数生成一个新的迭代器。</p>
+<blockquote>
+<p>这个构造函数为了避免冲突和重名，使用了一个避免重名的数据类型Symbol类型。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> a = <span class="hljs-keyword">new</span> 可迭代数据结构()<br><br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i <span class="hljs-keyword">of</span> a)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i);   <span class="hljs-comment">// 执行完之后迭代器返回&#123;done:true&#125;</span><br>&#125;<br><br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i <span class="hljs-keyword">of</span> a)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i);  <span class="hljs-comment">// 如果使用的迭代器是同一个那么迭代器已经处于执行结束的状态了</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="可迭代协议"><a href="#可迭代协议" class="headerlink" title="可迭代协议"></a>可迭代协议</h2><p>JavaScript中实现了这套规范(协议)的有以下数据类型：</p>
+<ul>
+<li>字符串</li>
+<li>数组</li>
+<li>映射</li>
+<li>arguments对象</li>
+<li>NodeList等DOM集合类型</li>
+</ul>
+<p><strong>没有对象！</strong></p>
+<p>支持迭代器模式的原生语言特性：</p>
+<ul>
+<li>for-of循环</li>
+<li>数组解构</li>
+<li>扩展操作符</li>
+<li>Array.from()</li>
+<li>创建集合</li>
+<li>创建映射</li>
+<li>Promise.all()接收由期约组成的可迭代对象</li>
+<li>Promise.race()接收由期约组成的可迭代对象</li>
+<li>yield* 操作符，在生成器中使用</li>
+</ul>
+<h2 id="自定义可迭代对象"><a href="#自定义可迭代对象" class="headerlink" title="自定义可迭代对象"></a>自定义可迭代对象</h2><p>给对象加上简单的自定义迭代器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Counter</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">limit</span>) &#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">limit</span> = limit;<br>    &#125;<br>    [<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">iterator</span>]()&#123;<br>        <span class="hljs-keyword">let</span> count = <span class="hljs-number">1</span>;<br>        limit = <span class="hljs-variable language_">this</span>.<span class="hljs-property">limit</span>;<br>        <span class="hljs-keyword">return</span> &#123;<br>            <span class="hljs-title function_">next</span>(<span class="hljs-params"></span>) &#123;<br>                <span class="hljs-keyword">if</span>(count &lt;= limit) &#123;<br>                    <span class="hljs-keyword">return</span> &#123;<span class="hljs-attr">done</span>:<span class="hljs-literal">false</span>,<span class="hljs-attr">value</span>:count++&#125;;<br>                &#125;<span class="hljs-keyword">else</span> &#123;<br>                    <span class="hljs-keyword">return</span> &#123;<span class="hljs-attr">done</span>: <span class="hljs-literal">true</span>&#125;;<span class="hljs-comment">// value没值了默认就是value</span><br>                &#125;<br>            &#125;,<br>            <span class="hljs-keyword">return</span>() &#123;<br>                <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span> (<span class="hljs-string">&#x27;Exiting early&#x27;</span>);<br>                <span class="hljs-keyword">return</span> &#123;<span class="hljs-attr">done</span>: <span class="hljs-literal">true</span>&#125;;<br>            &#125;<br>        &#125;;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">let</span> counter = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>(<span class="hljs-number">3</span>);<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i <span class="hljs-keyword">of</span> counter)&#123;<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i)&#125;  <span class="hljs-comment">// 1 2 3</span><br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i <span class="hljs-keyword">of</span> counter)&#123;<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i)&#125;  <span class="hljs-comment">// 1 2 3</span><br></code></pre></td></tr></table></figure>
+
+<p>有两种情况均会调用迭代器的return函数，return函数返回值也是个有标识迭代结束done变量为true的对象</p>
+<blockquote>
+<p>return函数相当干是一个声明周期钩子，在提前退出时会调用</p>
+</blockquote>
+<ul>
+<li>for-of中的终止语句（break、continue、return、throw）</li>
+<li>.next方法中的提前退出逻辑</li>
+</ul>
+<h1 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>函数名称前面带一个星号表示它是一个生成器。（除了箭头函数）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> *<span class="hljs-title class_">Fun</span>()<br></code></pre></td></tr></table></figure>
+
+<p>生成器函数的返回值是一个生成器对象，该对象实现了迭代器协议，是一个可迭代对象。故该对象拥有可迭代对象的特征：</p>
+<ul>
+<li>拥有一个.next()函数</li>
+<li>返回值是一个包含标识下一个迭代值的value和表示是否结束done的对象</li>
+<li>还有一个可选的一个提前退出的return函数</li>
+</ul>
+<p>迭代器对象是在数据结构的迭代器构造函数中声明next()方法逻辑；</p>
+<p>生成器对象中的.next()函数返回值的返回逻辑在生成器函数中定义，生成器函数返回什么就是.next()的value。</p>
+<blockquote>
+<p>如果生成器函数中没有返回值没有return语句，生成器对象在调用一次.next()函数就会返回{done:true,value:undefined}的值</p>
+<p>如果有return语句，.next()返回的value属性 就是函数的返回值done为true</p>
+</blockquote>
+<p>如果要对生成器对象调用多次.next()方法，生成多个迭代值怎么办? return 语句后面的语句就不执行了啊?</p>
+<p>一个新的语法关键字<strong>yield</strong>由此而来</p>
+<h2 id="yield"><a href="#yield" class="headerlink" title="yield"></a>yield</h2><p>yield关键字理解起来就是<strong>只可以在生成器函数中使用的高配版的return语句</strong>，每次执行到yield语句就会执行停止，返回yield后面的值，同时这个生成器函数的执</p>
+<p>行上下文会被保留，在下次调用.next()函数时会执行之后的代码。</p>
+<ul>
+<li><strong>暂停函数执行，返回返回值</strong></li>
+</ul>
+<p>常见使用场景1</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> *<span class="hljs-title function_">nTimes</span>(<span class="hljs-params">n</span>) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i=<span class="hljs-number">0</span>;i&lt;n;++i)&#123;<br>        <span class="hljs-keyword">yield</span> i;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> x <span class="hljs-keyword">of</span> <span class="hljs-title function_">nTimes</span>(<span class="hljs-number">3</span>))&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x)<br>&#125;<br><span class="hljs-comment">// 0 1 2</span><br></code></pre></td></tr></table></figure>
+
+<p>常见使用场景2     利用生成器函数返回一个可迭代对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> *<span class="hljs-title function_">zeros</span>(<span class="hljs-params">n</span>) &#123;<br>    <span class="hljs-keyword">while</span>(n--) &#123;<br>       <span class="hljs-keyword">yield</span> <span class="hljs-number">0</span>; <br>    &#125;<br>&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title function_">zeroes</span>(<span class="hljs-number">8</span>)))<br><span class="hljs-comment">//[0,0,0,0,0,0,0,0]</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>接收参数</strong></li>
+</ul>
+<p>除了暂停函数执行，返回值。<strong>yield</strong>关键字还可以作为函数的中间参数使用，<em><em>下一个</em>.next()函数的第一个调用入参，会传给上一次让函数暂停的yield关键字</em>*。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span>* <span class="hljs-title function_">generatorFn</span>(<span class="hljs-params">initial</span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(initial);<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-keyword">yield</span>);<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-keyword">yield</span>);<br>&#125;<br><span class="hljs-keyword">let</span> generator0bject = <span class="hljs-title function_">generatorFn</span>(<span class="hljs-string">&#x27;foo&#x27;</span>);  <span class="hljs-comment">// 生成器函数只会在初次调用next()方法后开始执行</span><br>generatorObject.<span class="hljs-title function_">next</span>(<span class="hljs-string">&#x27;bar&#x27;</span>); <span class="hljs-comment">// foo   先执行括号中的yield关键字取值取到yield就立刻暂停，还没有开始打印第二个字</span><br>generator0bject .<span class="hljs-title function_">next</span>(<span class="hljs-string">&#x27;baz&#x27;</span>); <span class="hljs-comment">// baz</span><br>generator0bject.<span class="hljs-title function_">next</span>(<span class="hljs-string">&#x27;qux&#x27;</span>); <span class="hljs-comment">// qux</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>给<strong>yield</strong>语法增加星号，可以将其后面的可迭代对象序列化为一连串值</li>
+</ul>
+<p>遇到<strong>yield</strong><em>语句，可以将<strong>yield</strong></em>理解为一个for-of循环，<em><em>yield</em> &#x3D;  for-of</em>*</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span>* <span class="hljs-title function_">generatorFn</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">yield</span>* [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br>&#125;<br><span class="hljs-keyword">let</span> generator0bject = <span class="hljs-title function_">generatorFn</span>();<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> X <span class="hljs-keyword">of</span> <span class="hljs-title function_">generatorFn</span>()) &#123;<br>	<span class="hljs-variable language_">console</span>.1og(x);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>当做默认迭代器</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Foo</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>)&#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">values</span> = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>];<br>    &#125;<br>    *[<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">iterator</span>]()&#123;  <span class="hljs-comment">// 生成器函数直接当做迭代器构造函数,表示Foo类型的Symbol.iterator属性是一个生成器函数，返回值就是一个可迭代对象</span><br>        <span class="hljs-keyword">yield</span>* <span class="hljs-variable language_">this</span>.<span class="hljs-property">values</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对象的.next()方法返回值为yield的返回值，yield又解析了可迭代数据类型数组this.values</p>
+</blockquote>
+<h2 id="终止生成器对象"><a href="#终止生成器对象" class="headerlink" title="终止生成器对象"></a>终止生成器对象</h2><ul>
+<li>return</li>
+<li>throw</li>
+</ul>
+<p>和迭代器不一样的是，生成器调用这两个函数可以强制生成器对象进入中止状态，done会变成true，value就是return语句传入的参数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span>* <span class="hljs-title function_">generatorFn</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> X <span class="hljs-keyword">of</span> [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>，<span class="hljs-number">3</span>]) &#123;<br>        <span class="hljs-keyword">yield</span> x;	<br>    &#125;<br>&#125;<br><span class="hljs-keyword">const</span> g = <span class="hljs-title function_">generatorFn</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(g);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(g.<span class="hljs-keyword">return</span>(<span class="hljs-number">4</span>));<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(g);<br></code></pre></td></tr></table></figure>
+
+<p>而throw语句则表示传入生成器一个异常，如果生成器内部没有接住这个异常，生成器对象会强制进入中止状态。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span>* <span class="hljs-title function_">generatorFn</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> X <span class="hljs-keyword">of</span> [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>，<span class="hljs-number">3</span>]) &#123;<br>        <span class="hljs-keyword">yield</span> x;	   <span class="hljs-comment">// 内部无catch语法接住异常</span><br>    &#125;<br>&#125;<br><span class="hljs-keyword">const</span> g = <span class="hljs-title function_">generatorFn</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(g); <span class="hljs-comment">// generatorFn &#123;&lt;suspended&gt;&#125;</span><br><span class="hljs-keyword">try</span> &#123;<br>    g.<span class="hljs-keyword">throw</span>(<span class="hljs-string">&#x27;foo&#x27;</span>);<br>&#125;<span class="hljs-keyword">catch</span>(e)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e) <span class="hljs-comment">//foo</span><br>&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(g); <span class="hljs-comment">// generatorFn &#123;&lt;closed&gt;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>但是如果内部有catch语法并且接住了这个异常，则生成器则不会关闭。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span>* <span class="hljs-title function_">generatorFn</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> X <span class="hljs-keyword">of</span> [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>，<span class="hljs-number">3</span>]) &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">yield</span> x;<br>        &#125; <span class="hljs-keyword">catch</span>(e)&#123;&#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">const</span> g = <span class="hljs-title function_">generatorFn</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(g.<span class="hljs-title function_">next</span>()); <span class="hljs-comment">// &#123; done: false, value: 1&#125;</span><br>g.<span class="hljs-keyword">throw</span>(<span class="hljs-string">&#x27;foo&#x27;</span>)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(g.<span class="hljs-property">next</span>); <span class="hljs-comment">// &#123; done: false, value: 3&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>《Javascript 高级程序设计(第 4 版)》（JS 红宝书）</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">前端技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%A0%88/js/" class="category-chain-item">js</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/js/">#js</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>迭代器与生成器</div>
+      <div>http://example.com/2023/04/27/迭代器与生成器/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Airfe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/05/02/%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84%EF%BC%88%E4%B8%80%EF%BC%89/" title="代理与反射(一)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">代理与反射(一)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/19/CSS3%E7%89%B9%E6%80%A7/" title="CSS3特性">
+                        <span class="hidden-mobile">CSS3特性</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"RW68dMkEpeIOJJiBr1lPkhOS-gzGzoHsz","appKey":"P5fzMTGSJIoTaGvmgzsUHeNZ","path":"window.location.pathname","placeholder":"发表你的看法吧~","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"RW68dMkEpeIOJJiBr1lPkhOS-gzGzoHsz","appkey":"P5fzMTGSJIoTaGvmgzsUHeNZ","server_url":"https://rw68dmke.lc-cn-n1-shared.com"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+        <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数</span> <span id="times">载入时分秒</span> <script src="js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2023008943号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=https://beian.miit.gov.cn/"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAC9UExURVlZWdPT07KysmRkZIWFhfT09JmZmWZmZm9vb39/fxkZGUxMTDMzM3p6epCQkKamppubm729venp6cjIyN7e3tbW1s/Pz8LCwnx8fLS0tFZWVoiIiI+Pj6GhoeTk5Glpabu7u93d3evr66CgoJSUlKqqqsnJyeDg4Hd3d8PDw+Xl5bi4uNHR0dvb26Ojo6urq+fn51hYWDg4OCgoKHBwcK2traenp0FBQe7u7vHx8U5OTre3t8zMzHV1df///7GrnpQAAAA/dFJOU///////////////////////////////////////////////////////////////////////////////////AI4mfBcAAAUGSURBVHja7NoJb6M4GMZxY0NCD64kve/pMZ2d3Z297+X7f6zFNmBAMUXa6URl/q9UJSWPUPzrizFWRUlNLgEBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYYIEFAVhggQUWWGBBABZYYIEFFlgQgAUWWGCBBRYEYIEFFlhggQUBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYn6cCIcRXgvX/h9qcIVBqDdbEM8RCxGCB9QqXYRwHYDHBgwXWl8eKZKiESHI3Ba1kWs3fKixcaJUl1YyeBm7Ocq+yLItUiVBGnXxenSHJolIKEcwHq6ikbOX1YGVzQCTN8LPmSLreghUl9sN4Uw7yajMrLC0TZ1ImzqY6FEop0+pIaEN5HaoOxVuwEqFyc4I46uSlzOLqgxlh6UaR9l3VYWl9Fdoxb1Q90KJtu41pwwFW/WHhTtW8i7TafLCqRsk6bsGw63L9qurXRmuIlbT9lDQnlXU+nBFW1Q2qnZbDprWa2tjR90LZFqx1/+Td/HpGWLlrLDvIwTcx6dQ1Vrntbig68cDms3JwbA5Y1azs1ger6sNV/bbIw1jU81MvNAGrl58RVn8ozW+btF08iGFoAlYvP3csfVur1gJBEIA1uBmue5dhZDOyO2epbmgCVi8/I6x0MMHH9pjsTfBhNzQBq5uPZoQlB0uH3DZG4EZqQ26fL3sZq5uf09Ih6qw3i/pm6BZO0qZX7rrUS68Xsbr5ZE4rePMk08pk9aUZugfqppvs6AM1Acvlo/StP+6EbW06z8hJqxbYp2BZPQUnFsLsKuhQdaHqn5ewbF7KXIn0jWO5MqOQ7RaNLPtbNMmmhimj0GUmYLl8Gs0Lq4wyPbTu1l2QKqHSouzs3OlDIslW5SQsnY/NXmFplyNvEuuLV/Tau9BzwiraDUSwXmysztYWWNtL1psXeumgIrDGaqXvBfUuvtqUYI3V2t1wk1e2msFluJJm6zDJXv/fIfjPP7DAAgsssCiwwAILLLDAosACCyywwAKLAgsssMACC6zt9fDz/v75tyOB+98PD2+ORgKffjw4OP1uJPDxl+Xy8v1I4MPF3t7VNyOB4/vF4uzdzrG+39f1kz/w66Guv/yBvw90KX/gZKkr8Qf+2dOV+gNHC12/7RxrabD2/a31bLAO/a11YbAO/K21MFhLf2s9Gqw9f2vdGqzFu11jnVusE2/gxmI9eQOnFuvYG7i0WH7uK4t15w2cWazrXWP9a7H8f/bQYvm/6IPF+sF/pVssf19Ii/WH/0K2WH/uGuvEWC39gSdj9Twy+Rqri5EZx1gt/IE7Y/XoD1wbq9vd3w1PlufnD2OBp+ebm/uxwPHF6emnscDR4vLy41jg7vHq6sNY4Pr27OyYdRaLUrDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssL6u+k+AAQCR9eHtLKvLfwAAAABJRU5ErkJggg==" srcset="/img/loading.gif" lazyload data-original="/img/police_beian.png" alt="police-icon"/>
+          
+          <span>京公网安备12345678号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body>
+</html>
