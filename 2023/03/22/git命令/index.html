@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/pageImage/GIT.png">
 <meta property="article:published_time" content="2023-03-22T00:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-23T14:18:04.819Z">
+<meta property="article:modified_time" content="2024-08-12T13:39:42.155Z">
 <meta property="article:author" content="Airfe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/pageImage/GIT.png">
@@ -265,7 +265,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          725 字
+          1.6k 字
         
       </span>
     
@@ -276,7 +276,7 @@
         
         
         
-          7 分钟
+          14 分钟
         
       </span>
     
@@ -319,21 +319,96 @@
             
               <div class="markdown-body">
                 
-                <h1 id="GIT命令"><a href="#GIT命令" class="headerlink" title="GIT命令"></a>GIT命令</h1><ul>
-<li><strong>git branch</strong>                                         检查自己所处分支</li>
-<li><strong>git checkout -b user</strong>                    新建一个user分支并切换到user分支</li>
-<li><strong>git status</strong>                                      检查所处分支文件状态，绿色代表在暂存区</li>
-<li><strong>git add .</strong>                                             将修改和新增的文件统一放在暂存区</li>
-<li>git reset  +文件名                               将暂存区的文件取消暂存或切换到指定版本</li>
-<li><strong>git commit -m “完成用户列表功能的开发”</strong>        -m添加一个提交消息， 将当前分支提交到仓库中，运行完这句话以后查看状态git status ，当前工作目录应该是干净的</li>
-<li>git push -u origin user                       把本地的分支推送到云端仓库origin中，取名也为user</li>
-<li>git checkout master                           切换到master目录    </li>
-<li><strong>git merge user</strong>                                   将user分支合并到主分支</li>
-<li><strong>git push</strong>                                              将本地的master推送到云端</li>
-<li><strong>git pull</strong>                                                 拉取远程代码</li>
-<li><strong>git clone</strong>                                              克隆项目</li>
-<li>git log                                                    查看日志，会显示commit记录，和版本标识可以用git reset –hard  版本标识  回到相应的版本</li>
+                <h1 id="GIT命令"><a href="#GIT命令" class="headerlink" title="GIT命令"></a>GIT命令</h1><p><strong>enter 逐行浏览，q 退出分页器返回命令行</strong></p>
+<p>1.<strong>clone</strong></p>
+<ul>
+<li>克隆项目：git clone</li>
 </ul>
+<p>2.<strong>branch</strong></p>
+<ul>
+<li><p>查看当前所处分支： git branch</p>
+</li>
+<li><p>显示所有远程分支： git branch -r</p>
+</li>
+<li><p>新建一个分支：git branch newbranchname，基于当前分支新建</p>
+</li>
+</ul>
+<p>3.<strong>checkout</strong></p>
+<ul>
+<li>切换分支：git checkout branchname   &#x2F; git switch branchname</li>
+<li><strong>基于mian分支新建并切换到分支：git checkout -b dev_airfehuang main</strong></li>
+</ul>
+<p>4.<strong>status</strong></p>
+<ul>
+<li><p>查看当前工作区是否干净，显示暂存区状态：git status</p>
+<ul>
+<li><p><strong>“Changes to be committed”</strong> 部分显示已添加到暂存区的文件（使用 <code>git add</code> 命令）。</p>
+</li>
+<li><p><strong>“Changes not staged for commit”</strong> 部分显示已修改但未添加到暂存区的文件。</p>
+</li>
+<li><p><strong>“Untracked files”</strong> 部分显示未被 Git 追踪的文件</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>5.<strong>add</strong></p>
+<ul>
+<li>提交修改后的代码到暂存区：git add file<ul>
+<li>如果要提交所有修改后的代码 git add .</li>
+</ul>
+</li>
+</ul>
+<p>6.<strong>commit</strong></p>
+<ul>
+<li>提交暂存区代码到本地仓库：git commit -m “messgae”</li>
+</ul>
+<p>7.<strong>log</strong></p>
+<ul>
+<li>查看某个分支的提交记录：git log  分支名称，会显示commit的哈希值<ul>
+<li>git log -n 指定输出的提交记录条数：</li>
+</ul>
+</li>
+</ul>
+<p>8.<strong>push</strong></p>
+<ul>
+<li>推送到远端分支：git push</li>
+<li><strong>将本地的分支版本上传到远程合并：git push -u origin dev_airfehuang</strong></li>
+</ul>
+<p>9.<strong>fetch</strong></p>
+<ul>
+<li>获取远程仓库的所有分支和提交（但不合并），确保本地的远程分支引用是最新的，避免合并（merge）后不一致： git fetch</li>
+</ul>
+<p>10.<strong>merge</strong></p>
+<ul>
+<li><p>合并远程分支到当前目录：git merge 远程分支</p>
+<blockquote>
+<p>git pull &#x3D; git fetch + git merge</p>
+</blockquote>
+</li>
+</ul>
+<p>11.<strong>pull</strong></p>
+<ul>
+<li><p>默认拉取关联的远程分支合并到本地当前分支：git pull</p>
+</li>
+<li><p>指定拉取远程分支dev_kevin合到本地当前分支：git pull origin dev_kevin</p>
+</li>
+</ul>
+<p>12.<strong>revert</strong></p>
+<ul>
+<li><p>git revert hash ,创新一个新提交来做hash提交的更改逆操作。比如hash里面是新增一行代码，那么revert就会删除这行代码。</p>
+<p><code>git revert</code> 不会修改提交历史，而是创建一个新的提交。</p>
+</li>
+</ul>
+<p>13.<strong>reset</strong></p>
+<p>影响<strong>本地</strong>git记录的HEAD指针，和</p>
+<ul>
+<li>git reset –soft hash , 本地HEAD指针挪到指定hash，暂存区不更改，文件不更改。重新提交，解决冲突后合并。</li>
+<li>git reset –mixed hash ,本地HEAD指针挪到指定hash，只是暂存区清掉了，文件不更改。重新add、提交，解决冲突后合并。</li>
+<li>git reset –hard hash , 本地HEAD指针挪到指定hash，暂存区清掉，文件更改。重新写代码、add、提交，解决冲突后合并。</li>
+<li>git reset –keep hash , 会尝试mixed，尝试失败则命令执行失败。</li>
+</ul>
+<p>所以如果想撤销已经提交的commit，也可以通过reset先修改本地HEAD指针重新写代码提交，当然需要与远端的进行合并。</p>
+<p><code>git reset</code> 可以修改提交历史，暂存区和工作目录</p>
 <h1 id="文件状态"><a href="#文件状态" class="headerlink" title="文件状态"></a>文件状态</h1><p>Git工作区中的文件存在两种状态: </p>
 <ul>
 <li>untracked 未跟踪(未被纳入版本控制)</li>
