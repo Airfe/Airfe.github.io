@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://markdown-1307246189.cos.ap-chongqing.myqcloud.com/pageImage/React.png">
 <meta property="article:published_time" content="2024-06-03T00:00:00.000Z">
-<meta property="article:modified_time" content="2024-08-13T16:39:27.874Z">
+<meta property="article:modified_time" content="2024-08-26T15:17:22.904Z">
 <meta property="article:author" content="Airfe">
 <meta property="article:tag" content="React">
 <meta name="twitter:card" content="summary_large_image">
@@ -266,7 +266,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9.3k 字
+          9.4k 字
         
       </span>
     
@@ -356,11 +356,15 @@
 <li>设置订阅 &#x2F; 启动定时器</li>
 <li>手动更改真实DOM</li>
 </ul>
-<h3 id="参数分析"><a href="#参数分析" class="headerlink" title="参数分析"></a>参数分析</h3><p>useEffect Hook 的第二个数组参数有监听的意味。首先useEffect中的内容都会在render（）后执行一次，后面什么时候再执行就看第二个参数。</p>
+<h3 id="参数分析"><a href="#参数分析" class="headerlink" title="参数分析"></a>参数分析</h3><p>useEffect Hook 的第二个数组参数有监听的意味。</p>
 <ul>
 <li>传[]，不监听任何变量，只会在第一次render()后执行，相当于 componentDidMount()</li>
 <li>如果<strong>不传则监听所有变量</strong>，<strong>传某一个变量就是只检测这个变量</strong>。类似于componentDidUpdate()</li>
-<li>第一个参数（函数）返回的函数执行的时机除了每一次useEffect副作用函数执行时执行，还会在组件将卸载时执行，相当于componentWillUnmount()</li>
+<li>第一个参数（函数）返回的函数——清理函数执行的时机<ul>
+<li><strong>依赖项变化时</strong>，每次重新渲染时都会执行上一次的清理函数。初始挂载时，没有上一次的清理函数，所以 React 只会执行副作用函数（即 <code>useEffect</code> 的主函数部分）。</li>
+<li><strong>组件将卸载时执行</strong>，确保所有副作用（如事件监听、订阅等）在组件消失时得到适当清理，避免内存泄漏或其他不必要的资源占用。相当于componentWillUnmount()</li>
+</ul>
+</li>
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title class_">React</span>.<span class="hljs-title function_">useEffect</span>(<span class="hljs-function">()=&gt;</span>&#123;<br>    <span class="hljs-keyword">let</span> timer = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">()=&gt;</span>&#123;<br>        <span class="hljs-title function_">setCount</span>(<span class="hljs-function"><span class="hljs-params">count</span> =&gt;</span> count+<span class="hljs-number">1</span>) <span class="hljs-comment">// 第二种写法</span><br>    &#125;,<span class="hljs-number">1000</span>)<br>    <span class="hljs-keyword">return</span> <span class="hljs-function">()=&gt;</span> &#123;<br>        <span class="hljs-built_in">clearInterval</span>(timer)<br>    &#125;<br>&#125;,[])<br></code></pre></td></tr></table></figure>
 

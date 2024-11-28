@@ -16,11 +16,15 @@
   <meta name="author" content="Airfe">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="http://example.com/archives/2024/03/index.html">
+    <meta name="description" content="本文将简单介绍大前端的思想。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大前端（一）">
+<meta property="og:url" content="http://example.com/2024/11/25/%E5%A4%A7%E5%89%8D%E7%AB%AF%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
 <meta property="og:site_name" content="Airfe的博客">
+<meta property="og:description" content="本文将简单介绍大前端的思想。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-25T00:00:00.000Z">
+<meta property="article:modified_time" content="2024-11-28T14:44:52.985Z">
 <meta property="article:author" content="Airfe">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -28,11 +32,17 @@
   
     <meta name="referrer" content="no-referrer" />
   
-  <title>归档 - Airfe的博客</title>
+  <title>大前端（一） - Airfe的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
 
 
 
@@ -112,7 +122,7 @@
   <header>
     
 
-<div class="header-inner" style="height: 60vh;">
+<div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -230,9 +240,49 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="归档"></span>
+            <span id="subtitle" data-typed-text="大前端（一）"></span>
           
         </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-25 08:00" pubdate>
+          2024年11月25日
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
 
         
       </div>
@@ -248,40 +298,241 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 71 篇文章</p>
-  <hr>
-  
-  
-    
       
-      <p class="h5">2024</p>
-    
-    <a href="/2024/03/21/%E6%96%AD%E7%82%B9%E7%BB%AD%E5%AD%98/" class="list-group-item list-group-item-action">
-      <time>03-21</time>
-      <div class="list-group-item-title">断点续存</div>
-    </a>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">大前端（一）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="大前端思想"><a href="#大前端思想" class="headerlink" title="大前端思想"></a>大前端思想</h1><p>是相对于传统的前端，iOS，Android，H5等独立小团队而言的，大前端有两个方面的扩展</p>
+<ul>
+<li>一个是<strong>端的多样性</strong>。不局限于Web端，还有IOS、Android、小程序，本来各个端的技术栈不一样，前端无法进行复用，服务端也需要跟每一个前端部门进行对接，整个过程有非常多的<strong>重复性工作</strong>。大前端采用一些<strong>跨平台技术</strong>，把各种端融合在一起，这样<strong>前端用一套技术栈可以开发出适用于多个平台的客户端</strong>，再引入中间层BFF来做适配，对于<strong>服务器那边来说，也只需要满足BFF的数据需求</strong>就行了，不需要操心各种端的差异。</li>
+<li>另外一个就是<strong>前端技术的边界扩大化</strong>。除了传统的UI开发，还设计到<strong>全栈开发、跨平台开发</strong>的方向。可能nodejs写后端服务还是没有java这些成熟，但是写BFF这种中间层还是可以胜任的。跨平台开发技术也是因为端的多样性自然而然延伸出来的一些技术。</li>
+</ul>
+<p><strong>大前端将不仅仅只是开发web页面，还会做更多的终端开发、工程化工作，成为移动开发与Web前端的发展趋势。</strong></p>
+<p>对开发者而言，要会更多的技术栈，比如web开发三剑客，还有Android或iOS的原生开发技术，还有一些跨平台技术等等。</p>
+<h1 id="跨平台方案"><a href="#跨平台方案" class="headerlink" title="跨平台方案"></a>跨平台方案</h1><h2 id="H5-原生混合开发"><a href="#H5-原生混合开发" class="headerlink" title="H5+原生混合开发"></a>H5+原生混合开发</h2><p>微信、淘宝、美团、爱奇艺等app都是用的这种模式。</p>
+<p>原理：app需要动态变动的内容通过H5实现，依赖嵌入式浏览器webview这种来加载。H5不能实现的功能，还是交给原生去做，两者之间通过jsbridge桥接技术来进行通信。</p>
+<h2 id="js开发-原生渲染"><a href="#js开发-原生渲染" class="headerlink" title="js开发+原生渲染"></a>js开发+原生渲染</h2><p> 不直接使用 WebView 来渲染界面，而是<strong>通过桥接机制将 JavaScript 层的操作转化为原生 UI 组件的操作</strong>。</p>
+<p>由于 UI 渲染是通过原生组件完成的，性能比 WebView 这种基于 H5 的框架要好，但仍然存在桥接的性能损耗，特别是在复杂的界面和动画中频繁通信会导致卡顿。</p>
+<h3 id="React-Native"><a href="#React-Native" class="headerlink" title="React Native"></a>React Native</h3><p>React中虚拟DOM被映射为浏览器DOM树，<strong>React Native中虚拟DOM通过JavaScriptCore映射为原生控件树。</strong></p>
+<p>JavaScriptCore为js提供了运行环境，也作为js和原生应用通信的桥梁，传递虚拟DOM布局信息。</p>
+<h3 id="Weex"><a href="#Weex" class="headerlink" title="Weex"></a>Weex</h3><p>思想与RN类似，只是在语法层面，使用的Vue作为开发框架。</p>
+<h3 id="快应用"><a href="#快应用" class="headerlink" title="快应用"></a>快应用</h3><p>国内9大主流手机厂商共同制定的轻量级应用标准，目标是微信小程序。也是采用js开发+原生渲染。不同的是：</p>
+<ul>
+<li>快应用本身不支持vue或react，只支持原生js。</li>
+<li><strong>快应用不依赖浏览器引擎</strong>了，快应用本身提供了快应用引擎，能直接运行快应用的js、html、css，同时渲染原生控件。不需要嵌入浏览器引擎，也不需要桥接技术，<strong>直接用js就能操作原生控件</strong>。<strong>避免了 WebView 渲染过程中的性能损耗。</strong></li>
+<li>快应用的安装包<strong>体积较小</strong>，因为快应用的渲染引擎是集中到操作系统的ROM中，在应用中无需打包。而<strong>React Native</strong> 和 <strong>Weex</strong> 需要在每个应用包中包含渲染引擎和框架，导致应用包体积较大。</li>
+</ul>
+<h2 id="自绘UI-原生"><a href="#自绘UI-原生" class="headerlink" title="自绘UI+原生"></a>自绘UI+原生</h2><p>通过在不同平台实现一个统一接口的渲染引擎来绘制UI，而不依赖系统原生控件，所以可以<strong>做到不同平台UI的一致性</strong>。如果涉及其它系统能力调用，依然要涉及原生开发。</p>
+<p>优点：可以避免对原生控件依赖而带来的限制及高昂的维护成本。性能高（自绘引擎是直接调用系统API来绘制UI，所以性能和原生控件接近）</p>
+<p>缺点：不支持动态下发代码和热更新。</p>
+<h3 id="Flutter"><a href="#Flutter" class="headerlink" title="Flutter"></a>Flutter</h3><p><strong>Flutter 提供了一个统一的跨平台绘制机制</strong>，无论在哪个原生平台上运行，都会<strong>通过自己的渲染引擎 Skia 渲染相同的 UI 元素</strong>，原生应用只需要作为容器展示 Flutter 渲染的界面，不必担心各平台原生控件的差异，从而确保 UI 的一致性。</p>
+<h2 id="PWA"><a href="#PWA" class="headerlink" title="PWA"></a>PWA</h2><p>即增强版Web App。PWA完全使用前端技术栈，不过它需要手机和浏览器的支持。</p>
+<p>目前支持ServiceWorker和Google Play Service的Android手机，以及搭载11.3以上的iOS手机可以使用PWA。由于国内手机厂商和浏览器厂商的统一性问题，PWA在国内发展不是很好，但是在国外并没有这些问题。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">前端技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%A0%88/%E5%A4%A7%E5%89%8D%E7%AB%AF/" class="category-chain-item">大前端</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>大前端（一）</div>
+      <div>http://example.com/2024/11/25/大前端（一）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Airfe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/17/React%EF%BC%88%E4%B9%9D%EF%BC%89React%E6%89%A9%E5%B1%95/" title="React（八）React扩展">
+                        <span class="hidden-mobile">React（八）React扩展</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"RW68dMkEpeIOJJiBr1lPkhOS-gzGzoHsz","appKey":"P5fzMTGSJIoTaGvmgzsUHeNZ","path":"window.location.pathname","placeholder":"发表你的看法吧~","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"RW68dMkEpeIOJJiBr1lPkhOS-gzGzoHsz","appkey":"P5fzMTGSJIoTaGvmgzsUHeNZ","server_url":"https://rw68dmke.lc-cn-n1-shared.com"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
 </div>
 
 
 
 
 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
 
     
@@ -428,6 +679,99 @@
 
 
 
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
 
   <script defer src="/js/leancloud.js" ></script>
 
